@@ -1,47 +1,45 @@
 package com.example.demo.web;
 
 import com.example.demo.User;
-import com.example.demo.UserManager;
+import com.example.demo.UserService;
+import com.example.demo.UserTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/Users")
-public class UserController {
-@Autowired private UserManager taskManager;
+public class UserController implements UserTemplate {
+@Autowired private UserService userService;
 
     @PostMapping("/{name}/{description}")
-    public String addUser(@PathVariable String name, @PathVariable String description) {
-        taskManager.add(name, description);
-        return name+" is added";
+    public void createUser(@PathVariable String name, @PathVariable String description) {
+        userService.createUser(name, description);
     }
+
     @GetMapping("/SearchByName/{name}")
-    public List<User> searchByName(@PathVariable String name){
-        return taskManager.searchByName(name);
+    public List<User> searchByName(@PathVariable String name){ return userService.searchByName(name); }
+
+    @GetMapping("/{Id}")
+    public User searchById(@PathVariable Integer Id){
+        return userService.searchById(Id);
     }
-    @GetMapping("/SearchById/{Id}")
-    public List<User> searchById(@PathVariable Integer Id){
-        return taskManager.searchById(Id);
-    }
-    @DeleteMapping("/{id}")
-    public String deleteById(@PathVariable Integer id){
-        User obj=taskManager.deleteById(id);
-        return obj.name+" is Deleted";
-    }
-    @PutMapping("/UpdateDescription/{id}/{description}")
-    public String updateDes(@PathVariable Integer id,@PathVariable String description){
-        User obj=taskManager.updateDes(id,description);
-        return obj.name+" is Updated";
-    }
+
     @GetMapping
-    public List<User> displayAll(){
-        return taskManager.displayAll();
+    public List<User> displayAll(){ return userService.displayAll(); }
+
+    @PutMapping("/{id}/{description}")
+    public void updateDescription(@PathVariable Integer id,@PathVariable String description){
+        userService.updateDescription(id,description);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Integer id){
+        userService.deleteById(id);
+    }
+
     @DeleteMapping
-    public String deleteAll(){
-     taskManager.deleteAll();
-     return "Data is Delete";
+    public void deleteAll(){
+     userService.deleteAll();
     }
 }

@@ -1,11 +1,24 @@
 package com.example.demo;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="user")
 public class User {
-    public String name,description;
-    public Integer id;
+    @Column(name="name")
+     String name;
+    @Column(name="description")
+        String description;
+     @Id
+     @GeneratedValue(strategy = GenerationType.AUTO)
+     @Column(name ="id")
+     Integer id;
 
-
-    public User() {
+    public User(){}
+    public User(String name, String description, Integer id) {
+        this.name = name;
+        this.description=description;
+        this.id=id;
     }
 
     public String getName() {
@@ -30,12 +43,6 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User(String name, String description, Integer id) {
-        this.name = name;
-        this.description=description;
-        this.id=id;
     }
 
 
