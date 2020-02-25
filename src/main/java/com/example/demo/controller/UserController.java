@@ -1,47 +1,71 @@
 package com.example.demo.controller;
 
+import com.example.demo.UserControllerAdvice.UserExceptionHandler;
 import com.example.demo.model.User;
-import com.example.demo.UserServiceImpl;
-import com.example.demo.UserService;
+import com.example.demo.service.UserServiceImpl;
+import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 public class UserController implements UserService {
-@Autowired private UserServiceImpl userServiceImpl;
 
-    @PostMapping("/{name}/{description}")
-    public void createUser(@RequestBody User user ) {
+    @Autowired
+    private UserServiceImpl userServiceImpl;
+    private UserExceptionHandler exceptionHandler;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUser(@RequestBody User user) {
         userServiceImpl.createUser(user);
     }
 
     @GetMapping(params = "getAllByName")
-    public List<User> searchByName(@RequestParam(value="getAllByName") String name)
-    { return userServiceImpl.searchByName(name); }
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<User> searchByName(@RequestParam(value = "getAllByName") String name) {
+        return userServiceImpl.searchByName(name);
+    }
 
     @GetMapping(params = "getById")
-    public User searchById(@RequestParam(value="getById") Integer Id){
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public User searchById(@RequestParam(value = "getById") Integer Id) {
         return userServiceImpl.searchById(Id);
     }
 
-    @GetMapping
-    public List<User> displayAll(){ return userServiceImpl.displayAll(); }
-
-    //todo take payload @Requestbody
-    @PutMapping("/{id}/{description}")
-    public void updateDescription(@RequestBody User user){
-        userServiceImpl.updateDescription(user);
+    @GetMapping(params = "getAllByDescription")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<User> searchByDescription(@RequestParam(value = "getAllByDescription") String description) {
+        return userServiceImpl.searchByDescription(description);
     }
 
-    @DeleteMapping(params ="id")
-    public void deleteById(@RequestParam(value="id") Integer id){
+    @GetMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<User> displayAll() {
+        return userServiceImpl.displayAll();
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateUser(@RequestBody User user, @PathVariable("id") int id) {
+        userServiceImpl.updateUser(user, id);
+    }
+
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteById(@PathVariable("id") int id) {
         userServiceImpl.deleteById(id);
     }
 
     @DeleteMapping
-    public void deleteAll(){
-     userServiceImpl.deleteAll();
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAll() {
+        userServiceImpl.deleteAll();
     }
+
 }
