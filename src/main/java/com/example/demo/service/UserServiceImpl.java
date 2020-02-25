@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.UserControllerAdvice.UserExceptionHandler;
+import com.example.demo.UserControllerAdvice.UserInvalidDataException;
+import com.example.demo.UserControllerAdvice.UserNotFoundException;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,26 +21,26 @@ public class UserServiceImpl implements UserService {
     UserExceptionHandler exceptionHandler;
 
     @Override
-    public void createUser(User obj) {
+    public void createUser(User obj) throws UserInvalidDataException {
         if (obj.getName() == null || obj.getDescription() == null)
-            throw new NullPointerException("All parameters are mandatory");
+            throw new UserInvalidDataException("All parameters are mandatory");
         else
             dao.save(obj);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(int id) throws UserNotFoundException {
         if (!dao.findById(id).isPresent())
-            throw new NoSuchElementException("Could not find user with id:"+id);
+            throw new UserNotFoundException("Could not find user with id:" + id);
         else
             dao.deleteById(id);
     }
 
     @Override
-    public void updateUser(User obj, int id) {
+    public void updateUser(User obj, int id) throws UserNotFoundException {
 
         if (!dao.findById(id).isPresent())
-            throw new NoSuchElementException("Could not find user with id:"+id);
+            throw new UserNotFoundException("Could not find user with id:" + id);
         else {
             obj.setId(id);
             dao.save(obj);
@@ -46,27 +48,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> displayAll() {
+    public List<User> displayAll() throws UserNotFoundException {
 
         if (dao.findAll().isEmpty())
-            throw new NoSuchElementException("no data to display");
+            throw new UserNotFoundException("no data to display");
         else
             return dao.findAll();
     }
 
     @Override
-    public User searchById(Integer id) {
+    public User searchById(Integer id) throws UserNotFoundException {
+
 
         if (!dao.findById(id).isPresent())
-            throw new NoSuchElementException("Could not find user with id:"+id);
+            throw new UserNotFoundException("Could not find user with id:" + id);
         else
             return dao.findById(id).get();
     }
 
     @Override
-    public List<User> searchByName(String name) {
+    public List<User> searchByName(String name) throws UserNotFoundException {
         if (dao.findAllByName(name).isEmpty())
-            throw new NoSuchElementException("Could not find user with name:"+name);
+            throw new UserNotFoundException("Could not find user with name:" + name);
         else
             return dao.findAllByName(name);
     }
@@ -77,9 +80,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> searchByDescription(String description) {
+    public List<User> searchByDescription(String description) throws UserNotFoundException {
         if (dao.findAllByDescription(description).isEmpty())
-            throw new NoSuchElementException("Could not find user with description:"+description);
+            throw new UserNotFoundException("Could not find user with description:" + description);
         else
             return dao.findAllByDescription(description);
     }
