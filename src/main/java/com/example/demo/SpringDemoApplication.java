@@ -10,13 +10,7 @@ public class SpringDemoApplication {
         SpringApplication.run(SpringDemoApplication.class, args);
     }
 
-    // todo - Create exceptions (controlleradvice)
-    //				UserNotFoundException(id) -update/get (404)
-    //				UserInvalidDataException("description") - description empty/null (400)
-    //				- ErrorResponse {errorClass = "UserNotFoundException",message = "Could not find user with id 1"}
-    //				- ErrorResponse {errorClass = "UserInvalidDataException",message = "Could get value for description"}
-    //				- ErrorResponse {errorClass = "Exception",message = "e.getMessage()"}
-	//              - Custom Header which gives Execution time
+    // todo Custom Header which gives Execution time
 
 
 }

@@ -6,17 +6,16 @@ import com.example.demo.UserControllerAdvice.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.service.UserServiceImpl;
 import com.example.demo.service.UserService;
+import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
-public class UserController implements UserService {
 
+public class UserController implements UserService {
     @Autowired
     private UserServiceImpl userServiceImpl;
     private UserExceptionHandler exceptionHandler;
@@ -37,6 +36,7 @@ public class UserController implements UserService {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public User searchById(@RequestParam(value = "getById") Integer Id) throws UserNotFoundException {
         return userServiceImpl.searchById(Id);
+
     }
 
     @GetMapping(params = "getAllByDescription")

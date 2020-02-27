@@ -5,17 +5,17 @@ import com.example.demo.UserControllerAdvice.UserInvalidDataException;
 import com.example.demo.UserControllerAdvice.UserNotFoundException;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+
     @Autowired
     UserDAO dao;
     UserExceptionHandler exceptionHandler;
