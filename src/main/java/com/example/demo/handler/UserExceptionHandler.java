@@ -1,5 +1,7 @@
-package com.example.demo.UserControllerAdvice;
+package com.example.demo.handler;
 
+import com.example.demo.exception.UserInvalidDataException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.ExceptionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,14 @@ public class UserExceptionHandler {
         return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.NOT_FOUND);
     }
 
+    public ExceptionModel getExceptionModel() {
+        return exceptionModel;
+    }
+
+    public void setExceptionModel(ExceptionModel exceptionModel) {
+        this.exceptionModel = exceptionModel;
+    }
+
     @ExceptionHandler
     public ResponseEntity<ExceptionModel> handleUserInvalidDataException(UserInvalidDataException exception) {
         exceptionModel.setMessage(exception.getMessage());
@@ -34,7 +44,7 @@ public class UserExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ExceptionModel> handleException(Exception exception){
-        exceptionModel.setMessage("Internal server Erroe");
+        exceptionModel.setMessage("Internal server Error");
         exceptionModel.setStatus("500");
         return new ResponseEntity<ExceptionModel>(exceptionModel, HttpStatus.INTERNAL_SERVER_ERROR);
     }

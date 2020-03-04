@@ -1,10 +1,6 @@
 package com.example.demo.filter;
 
-import com.example.demo.UserControllerAdvice.UserNotFoundException;
-import com.example.demo.controller.UserController;
-import com.example.demo.service.UserServiceImpl;
 import org.aspectj.lang.annotation.Around;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -13,9 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-public class Filter implements javax.servlet.Filter {
-    @Autowired
-    UserServiceImpl userService;
+public class CustomFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
 
     @Around("org.springframework.web.servlet.DispatcherServlet.service()")
     @Override
@@ -31,7 +30,12 @@ public class Filter implements javax.servlet.Filter {
         Long endTime = System.currentTimeMillis();
         Long executionTime=(endTime - startTime);
         res.addHeader("response-time", executionTime.toString()+"ms");
-        chain.doFilter(req, res);
+//        chain.doFilter(req, res);
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

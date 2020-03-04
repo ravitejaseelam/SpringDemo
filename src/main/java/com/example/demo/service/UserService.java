@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.UserControllerAdvice.UserInvalidDataException;
-import com.example.demo.UserControllerAdvice.UserNotFoundException;
+import com.example.demo.exception.UserInvalidDataException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 
 import java.util.List;

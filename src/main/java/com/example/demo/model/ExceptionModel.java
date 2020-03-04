@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExceptionModel {
-    String status,message;
+    String status, message;
 
     public String getMessage() {
         return message;

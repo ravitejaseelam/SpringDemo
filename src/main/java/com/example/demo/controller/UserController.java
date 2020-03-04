@@ -1,24 +1,21 @@
 package com.example.demo.controller;
 
-import com.example.demo.UserControllerAdvice.UserExceptionHandler;
-import com.example.demo.UserControllerAdvice.UserInvalidDataException;
-import com.example.demo.UserControllerAdvice.UserNotFoundException;
+import com.example.demo.exception.UserInvalidDataException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.service.UserServiceImpl;
-import com.example.demo.service.UserService;
-import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 
-public class UserController implements UserService {
-    @Autowired
+public class UserController  {
+  @Autowired
     private UserServiceImpl userServiceImpl;
-    private UserExceptionHandler exceptionHandler;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -26,7 +23,7 @@ public class UserController implements UserService {
         userServiceImpl.createUser(user);
     }
 
-    @GetMapping(params = "getAllByName")
+  @GetMapping(params = "getAllByName")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public List<User> searchByName(@RequestParam(value = "getAllByName") String name) throws UserNotFoundException {
         return userServiceImpl.searchByName(name);

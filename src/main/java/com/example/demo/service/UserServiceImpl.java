@@ -1,15 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.UserControllerAdvice.UserExceptionHandler;
-import com.example.demo.UserControllerAdvice.UserInvalidDataException;
-import com.example.demo.UserControllerAdvice.UserNotFoundException;
+import com.example.demo.exception.UserInvalidDataException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.dao.UserDAO;
 import com.example.demo.model.User;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -18,7 +15,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserDAO dao;
-    UserExceptionHandler exceptionHandler;
+
 
     @Override
     public void createUser(User obj) throws UserInvalidDataException {
